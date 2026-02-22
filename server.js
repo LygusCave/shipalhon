@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const { pinyin } = require('pinyin-pro');
 const PORT = 3000;
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'front')));
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'front', 'index.html'));
 });
 
 app.use((req, res, next) => {
