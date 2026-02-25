@@ -1,4 +1,4 @@
-const palladiumSyllables = [
+export const palladiumSyllables = [
   "а", "ай", "ань", "ан", "ао",
   "ба", "бай", "бань", "бан", "бао", "бэй", "бэнь", "бэн", "би", "бянь", "бяо", "бе", "бинь", "бин", "бо", "бу",
   "ца", "цай", "цань", "цан", "цао", "цэ", "цэнь", "цэн", "ча", "чай", "чань", "чан", "чао", "чэ", "чэнь", "чэн", "чи", "чун", "чоу", "чу", "чуай", "чуань", "чуан", "чуй", "чунь", "чо", "цы", "цун", "цоу", "цу", "цуань", "цуй", "цунь", "цо",
@@ -24,7 +24,7 @@ const palladiumSyllables = [
   "цза", "цзай", "цзань", "цзан", "цзао", "цзэ", "цзэй", "цзэнь", "цзэн", "чжа", "чжай", "чжань", "чжан", "чжао", "чжэ", "чжэй", "чжэнь", "чжэн", "чжи", "чжун", "чжоу", "чжу", "чжуа", "чжуай", "чжуань", "чжуан", "чжуй", "чжунь", "чжо", "цзы", "цзун", "цзоу", "цзу", "цзуань", "цзуй", "цзунь", "цзо"
 ];
 
-const pinyinSyllables = [
+export const pinyinSyllables = [
   "a", "ai", "an", "ang", "ao",
   "ba", "bai", "ban", "bang", "bao", "bei", "ben", "beng", "bi", "bian", "biao", "bie", "bin", "bing", "bo", "bu",
   "ca", "cai", "can", "cang", "cao", "ce", "cen", "ceng", "cha", "chai", "chan", "chang", "chao", "che", "chen", "cheng", "chi", "chong", "chou", "chu", "chuai", "chuan", "chuang", "chui", "chun", "chuo", "ci", "cong", "cou", "cu", "cuan", "cui", "cun", "cuo",
@@ -49,5 +49,3 @@ const pinyinSyllables = [
   "ya", "yan", "yang", "yao", "ye", "yi", "yin", "ying", "yo", "yong", "you", "yu", "yuan", "yue", "yun",
   "za", "zai", "zan", "zang", "zao", "ze", "zei", "zen", "zeng", "zha", "zhai", "zhan", "zhang", "zhao", "zhe", "zhei", "zhen", "zheng", "zhi", "zhong", "zhou", "zhu", "zhua", "zhuai", "zhuan", "zhuang", "zhui", "zhun", "zhuo", "zi", "zong", "zou", "zu", "zuan", "zui", "zun", "zuo"
 ];
-
-module.exports = {pinyinSyllables, palladiumSyllables};

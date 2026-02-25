@@ -2,13 +2,18 @@ const transForm = document.getElementById("transForm");
 transForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const userstext = transForm.text1.value;
+    const spaceChecked = transForm.spacecheck.checked;
+    const data = {
+        utext: userstext,
+        spaceBool: spaceChecked,
+    }
     if (!userstext.trim()) return;
 
      try {
         const response = await fetch("/transcriptCN", { 
             method: "POST", 
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ utext: userstext })
+            body: JSON.stringify(data)
         });
         
         if (!response.ok) {

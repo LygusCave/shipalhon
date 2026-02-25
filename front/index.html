@@ -1,12 +1,32 @@
 <html>
     <head>
-        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
         <link rel="stylesheet" href="./styles/style.css"/>
         <title>😎 白파란红</title>
     </head>
     <body>
         <h1>
-            <form method="post" id="transForm" action="/transcriptCN">  
+            <form method="post" id="transForm" action="/transcriptCN"> 
+                <div id="transFormDiv">
+                    <input type="radio" id="CN" name="lang" value="CN" checked>
+                    <label for="CN">Китайский</label>
+                </div> 
+                <div id="transFormDiv">
+                    <input type="radio" id="JP" name="lang" value="JP" disabled>
+                    <label for="JP" class="disabled">Японский
+                        <span class="disabled-text">Данный язык сейчас не имеет поддержки</span>
+                    </label>
+                </div> 
+                <div id="transFormDiv">
+                    <input type="radio" id="KR" name="lang" value="KR" disabled>
+                    <label for="KR" class="disabled">Корейский
+                        <span class="disabled-text">Данный язык сейчас не имеет поддержки</span>
+                    </label>
+                </div> 
+                <input type="checkbox" name="spacecheck" checked>
+                
+                
+                <br><br>
                 <textarea name="text1" placeholder="textSyudy" required></textarea><br>
                 <button type="submit">Подтвердить</button><br>
                 <textarea name="text2" readonly>Пустой текст</textarea>

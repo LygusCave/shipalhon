@@ -1,11 +1,17 @@
-const express = require('express');
-const path = require('path');
+
+import express from 'express';
+import path from 'path';
+import { pinyin, addDict } from 'pinyin-pro';
+import CompleteDict from '@pinyin-pro/data/complete';
+import {toPallad, cyclePinyinPall, capitalizeFirstLetter} from './utils/converter/cnToPall.js';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const { pinyin } = require('pinyin-pro');
-const cnToPall = require('./utils/converter/cnToPall.js');
 const PORT = 3000;
 const jsonParser = express.json();
 
+addDict(CompleteDict);
 app.use((req, res, next) => {
     console.log(`Пришел запрос: ${req.method} ${req.url}`);
     next();
@@ -21,13 +27,9 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     console.log(text);
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
-    const pyn = pinyin(responseText, {toneType:'none', type: 'string'});
-    const ruText = cnToPall.cyclePinyinPall(pyn);
+    const ruText = cyclePinyinPall(pinyin(responseText, {toneType:'none', type: 'string', nonZh: 'consecutive', segmentit: 2,}), text.spaceBool);
     response.send(ruText);
 });
-   
-
-
 
 app.listen(PORT, () => {
     console.log(`Сервер запущен! Перейди: http://localhost:${PORT}`);

@@ -1,12 +1,12 @@
-const { pinyinSyllables } = require('../constants/syblCN.js');
-const { palladiumSyllables } = require('../constants/syblCN.js');
+import { pinyinSyllables, palladiumSyllables } from '../constants/syblCN.js';
 
-function capitalizeFirstLetter(str, capitalize = false) {
+export function capitalizeFirstLetter(str, capitalize = false) {
   if (!str) return '';
     if (capitalize === true) return str.charAt(0).toUpperCase() + str.slice(1);
+  return str;
 }
 
-function toPallad(pinyinStr, strict = true) {
+export function toPallad(pinyinStr, strict = false) {
   const cleanPinyin = pinyinStr.toLowerCase();
   const index = pinyinSyllables.indexOf(cleanPinyin);
   
@@ -21,9 +21,11 @@ function toPallad(pinyinStr, strict = true) {
   return pinyinStr;
 }
 
-function cyclePinyinPall (pinyinStr, space = true){
+export function cyclePinyinPall (pinyinStr, space){
   const mass = pinyinStr.split(' ');
   const converted = mass.map(syllable => toPallad(syllable));
+  if (space == false){
+      return space ? converted.join('') : converted.join('');
+  }
   return space ? converted.join(' ') : converted.join('');
 }
-module.exports = {toPallad,cyclePinyinPall,capitalizeFirstLetter};
