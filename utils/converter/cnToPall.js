@@ -1,4 +1,7 @@
 import { pinyinSyllables, palladiumSyllables } from '../constants/syblCN.js';
+import { pinyin, addDict } from 'pinyin-pro';
+import CompleteDict from '@pinyin-pro/data/complete';
+addDict(CompleteDict);
 
 export function capitalizeFirstLetter(str, capitalize = false) {
   if (!str) return '';
@@ -6,26 +9,31 @@ export function capitalizeFirstLetter(str, capitalize = false) {
   return str;
 }
 
-export function toPallad(pinyinStr, strict = false) {
-  const cleanPinyin = pinyinStr.toLowerCase();
-  const index = pinyinSyllables.indexOf(cleanPinyin);
+export function toPallad(cleanPinyin, strict = false) {
+  const index = pinyinSyllables.indexOf(cleanPinyin.toLowerCase());
   
   if (index !== -1) {
     return palladiumSyllables[index];
   }
   
   if (strict) {
-    throw new Error(`Слог "${pinyinStr}" не найден в базе пиньиня`);
+    throw new Error(`Слог "${cleanPinyin}" не найден в базе`);
   }
   
-  return pinyinStr;
+  return cleanPinyin;
 }
 
-export function cyclePinyinPall (pinyinStr, space){
-  const mass = pinyinStr.split(' ');
-  const converted = mass.map(syllable => toPallad(syllable));
-  if (space == false){
-      return space ? converted.join('') : converted.join('');
-  }
-  return space ? converted.join(' ') : converted.join('');
+export function cyclePinyinPall (chineseText, space){
+  const pinyinArray = pinyin(chineseText, {
+    toneType: 'none',
+    type: 'array',
+    nonZh: 'consecutive'
+  });
+
+  const converted = pinyinArray.map(syllable => toPallad(syllable));
+
+  return converted.join(space ? ' ' : '')
+  .replace(/\s+(\p{P})/gu, '$1') 
+  .replace(/(\p{P})\s+/gu, '$1')
+  .trim();
 }
