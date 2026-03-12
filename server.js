@@ -25,7 +25,7 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     console.log(text);
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
-    const ruText = cyclePinyinPall(responseText, text.spaceBool);
+    const ruText = cyclePinyinPall(responseText, text.spaceBool,text.erhuaBool);
     response.send(ruText);
 });
 

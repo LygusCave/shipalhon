@@ -8,7 +8,19 @@ export function capitalizeFirstLetter(str, capitalize = false) {
     if (capitalize === true) return str.charAt(0).toUpperCase() + str.slice(1);
   return str;
 }
+function applyErhua(arr) {
+  const result = [];
 
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].toLowerCase() === 'er' && i > 0) {
+      const lastIndex = result.length - 1;
+      result[lastIndex] = result[lastIndex] + 'r';
+    } else {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+}
 export function toPallad(cleanPinyin, strict = false) {
   const index = pinyinSyllables.indexOf(cleanPinyin.toLowerCase());
   
@@ -23,17 +35,22 @@ export function toPallad(cleanPinyin, strict = false) {
   return cleanPinyin;
 }
 
-export function cyclePinyinPall (chineseText, space){
-  const pinyinArray = pinyin(chineseText, {
+export function cyclePinyinPall (chineseText, space, erhua = false){
+  let pinyinArray = pinyin(chineseText, {
     toneType: 'none',
     type: 'array',
     nonZh: 'consecutive'
   });
-
+  console.log(pinyinArray);
+  if (erhua === true){
+    pinyinArray = applyErhua(pinyinArray);
+    console.log(pinyinArray);
+  }
   const converted = pinyinArray.map(syllable => toPallad(syllable));
-
+  console.log(converted);
   return converted.join(space ? ' ' : '')
   .replace(/\s+(\p{P})/gu, '$1') 
   .replace(/(\p{P})\s+/gu, '$1')
   .trim();
+  
 }
