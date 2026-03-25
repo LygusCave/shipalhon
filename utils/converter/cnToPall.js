@@ -1,8 +1,5 @@
 import { pinyinToPalladium } from '../constants/syblCN.js';
-import { pinyin, addDict } from 'pinyin-pro';
-import CompleteDict from '@pinyin-pro/data/complete';
-addDict(CompleteDict);
-
+import { pinyin } from 'pinyin-pro';
 export function capitalizeFirstLetter(str, capitalize = false) {
   if (!str) return '';
     if (capitalize === true) return str.charAt(0).toUpperCase() + str.slice(1);
