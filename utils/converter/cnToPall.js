@@ -1,4 +1,4 @@
-import { pinyinSyllables, palladiumSyllables } from '../constants/syblCN.js';
+import { pinyinToPalladium } from '../constants/syblCN.js';
 import { pinyin, addDict } from 'pinyin-pro';
 import CompleteDict from '@pinyin-pro/data/complete';
 addDict(CompleteDict);
@@ -9,31 +9,18 @@ export function capitalizeFirstLetter(str, capitalize = false) {
   return str;
 }
 function applyErhua(arr) {
-  const result = [];
-
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].toLowerCase() === 'er' && i > 0) {
-      const lastIndex = result.length - 1;
-      result[lastIndex] = result[lastIndex] + 'r';
+  return arr.reduce((acc, current, i) => {
+    if (current.toLowerCase() === 'er' && i > 0) {
+      acc[acc.length - 1] += 'r';
     } else {
-      result.push(arr[i]);
+      acc.push(current);
     }
-  }
-  return result;
+    return acc;
+  }, []);
 }
-export function toPallad(cleanPinyin, strict = false) {
-  const index = pinyinSyllables.indexOf(cleanPinyin.toLowerCase());
-  
-  if (index !== -1) {
-    return palladiumSyllables[index];
-  }
-  
-  if (strict) {
-    throw new Error(`Слог "${cleanPinyin}" не найден в базе`);
-  }
-  
-  return cleanPinyin;
-}
+export function toPallad(cleanPinyin) { 
+  const lowerSyllable = cleanPinyin.toLowerCase();
+  return pinyinToPalladium.get(lowerSyllable) || cleanPinyin;}
 
 export function cyclePinyinPall (chineseText, space, erhua = false){
   let pinyinArray = pinyin(chineseText, {
@@ -41,10 +28,9 @@ export function cyclePinyinPall (chineseText, space, erhua = false){
     type: 'array',
     nonZh: 'consecutive'
   });
-  console.log(pinyinArray);
+  
   if (erhua === true){
     pinyinArray = applyErhua(pinyinArray);
-    console.log(pinyinArray);
   }
   const converted = pinyinArray.map(syllable => toPallad(syllable));
   console.log(converted);
