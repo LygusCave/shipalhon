@@ -17,8 +17,8 @@ function applyErhua(arr) {
 }
 export function toPallad(cleanPinyin) { 
   const lowerSyllable = cleanPinyin.toLowerCase();
-  return pinyinToPalladium.get(lowerSyllable) || cleanPinyin;}
-
+  return pinyinToPalladium[lowerSyllable] || cleanPinyin;
+}
 export function cyclePinyinPall (chineseText, space, erhua = false){
   let pinyinArray = pinyin(chineseText, {
     toneType: 'none',
