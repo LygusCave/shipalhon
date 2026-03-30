@@ -30,7 +30,6 @@ export function cyclePinyinPall (chineseText, space, erhua = false){
     pinyinArray = applyErhua(pinyinArray);
   }
   const converted = pinyinArray.map(syllable => toPallad(syllable));
-  console.log(converted);
   return converted.join(space ? ' ' : '')
   .replace(/\s+(\p{P})/gu, '$1') 
   .replace(/(\p{P})\s+/gu, '$1')
