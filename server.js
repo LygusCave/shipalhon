@@ -6,7 +6,7 @@ import {toPallad, cyclePinyinPall, capitalizeFirstLetter} from './utils/converte
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-const PORT = 10000;
+const SOCKET_PATH = '/var/www/shipalhon.ru/data/nodejs/0.sock';
 const jsonParser = express.json();
 
 app.use((req, res, next) => {
@@ -21,14 +21,22 @@ app.get('/', (req, res) => {
 
 app.post("/transcriptCN", jsonParser, function (request, response) {
     const text = request.body;
-    console.log(text);
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
     const ruText = cyclePinyinPall(responseText, text.spaceBool,text.erhuaBool);
     response.send(ruText);
 });
+if (fs.existsSync(SOCKET_PATH)) {
+    try {
+        fs.unlinkSync(SOCKET_PATH);
+        console.log('Старый сокет удален для перезапуска');
+    } catch (err) {
+        console.error('Не удалось удалить сокет:', err);
+    }
+}
 
-app.listen(PORT, () => {
-    console.log(`Сервер запущен! Перейди: http://localhost:${PORT}`);
-    console.log("时：", new Date().toLocaleString());
+app.listen(SOCKET_PATH, () => {
+    // Устанавливаем права 666 (как на скрине), чтобы Nginx мог подключиться
+    fs.chmodSync(SOCKET_PATH, '0666');
+    console.log(`Сервер слушает сокет: ${SOCKET_PATH}`);
 });
