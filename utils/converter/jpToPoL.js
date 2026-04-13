@@ -37,7 +37,7 @@ export const jpToPol = async (text, vowelLengthMacron = true, space = true) => {
         polText = polText.replace(/ӯ/g, 'у');
         polText = polText.replace(/э̄/g, 'э');
         polText = polText.replace(/о̄/g, 'о');
-        polText = polText.replace(/ё̄/g, 'е');
+        polText = polText.replace(/ё̄/g, 'ё');
     }
     return polText.split(" ").join(space ? " " : ""); // Убираем пробелы, если space = false
 };
