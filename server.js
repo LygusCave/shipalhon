@@ -26,6 +26,13 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     const ruText = cyclePinyinPall(responseText, text.spaceBool,text.erhuaBool);
     response.send(ruText);
 });
+app.post("/transcriptJP", jsonParser, function (request, response) {
+    const text = request.body;
+    if(!text) return response.sendStatus(400);
+    const responseText = text.utext;
+    const ruText = jpToPol(responseText, true, text.spaceBool);
+    response.send(ruText);
+});
 if (fs.existsSync(SOCKET_PATH)) {
     try {
         fs.unlinkSync(SOCKET_PATH);
