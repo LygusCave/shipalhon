@@ -39,6 +39,6 @@ export const jpToPol = async (text, vowelLengthMacron = true, space = true) => {
         polText = polText.replace(/о̄/g, 'о');
         polText = polText.replace(/ё̄/g, 'е');
     }
-    return polText.join(space ? ' ' : '');
+    return polText.split(" ").join(space ? " " : ""); // Убираем пробелы, если space = false
 };
 jpToPol("バングラデシュ領コンゴの一部であるウズベキスタン・タジキスタン連合は、モロッコ沿岸に部隊を派遣した。Konnichiwa watashi desu!").then(console.log); 
