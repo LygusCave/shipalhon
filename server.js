@@ -28,12 +28,12 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     const ruText = cyclePinyinPall(responseText, text.spaceBool,text.erhuaBool);
     response.send(ruText);
 });
-app.post("/transcriptJP", jsonParser, function (request, response) {
+app.post("/transcriptJP", jsonParser, async function (request, response) {
     console.log("Получен запрос на транскрипцию JP:", request.body);
     const text = request.body;
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
-    const ruText = jpToPol(responseText, text.vowelLengthMacron, text.spaceBool);
+    const ruText = await jpToPol(responseText, text.vowelLengthMacron, text.spaceBool);
     response.send(ruText);
 });
 if (fs.existsSync(SOCKET_PATH)) {
