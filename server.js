@@ -4,7 +4,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {toPallad, cyclePinyinPall, capitalizeFirstLetter} from './utils/converter/cnToPall.js';
-import {jpToPol} from './utils/converter/jpToPoL.js';
+import {jpToHiragana,jpToPol} from './utils/converter/jpToPoL.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
@@ -29,6 +29,7 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     response.send(ruText);
 });
 app.post("/transcriptJP", jsonParser, function (request, response) {
+    console.log("Получен запрос на транскрипцию JP:", request.body);
     const text = request.body;
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
