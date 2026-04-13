@@ -47,8 +47,31 @@ export function cyclePinyinPall(chineseText, space, erhua = false) {
   }
 
   const converted = pinyinArray.map(syllable => toPallad(syllable));
-  let result = converted.join(space ? ' ' : '');
-  result = result.replace(/н([аеёиоуыэюя])/gi, 'нъ$1');
+
+  // Исправленная логика склейки
+  let result = "";
+  for (let i = 0; i < converted.length; i++) {
+    let current = converted[i];
+    
+    // Если это не первый слог, и текущий слог начинается на гласную,
+    // а предыдущий заканчивался на 'н' — добавляем 'ъ'
+    if (i > 0) {
+      const prev = converted[i - 1].toLowerCase();
+      const startsWithVowel = /^[аеёиоуыэюя]/i.test(current);
+      
+      if (prev.endsWith('н') && startsWithVowel) {
+        result += 'ъ';
+      }
+    }
+    
+    // Добавляем пробел, если нужно, но не перед 'ъ'
+    if (space && i > 0) {
+      result += ' ';
+    }
+
+    result += current;
+  }
+
   return result
     .replace(/\s+(\p{P})/gu, '$1') 
     .replace(/(\p{P})\s+/gu, '$1')
