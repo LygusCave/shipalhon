@@ -6,11 +6,11 @@ const kuroshiro = new Kuroshiro.default();
 
 await kuroshiro.init(new KuromojiAnalyzer());
 export const jpToHiragana = async (text) => {
-    const result = await kuroshiro.convert(text, { to: "hiragana", mode: "spaced" });
+    const result = await kuroshiro.convert(text, { to: "romaji", mode: "spaced" });
     return result;
 };
-export const jpToPol = async (text, vowelLengthMacron = true, space = true) => {
-    let hiraganaText = await jpToHiragana(text);
+export const jpToPol = async (text, vowelLengthMacron = false, space = true) => {
+    let hiraganaText = (await jpToHiragana(text)).trim();
     const sortedEntries = Object.entries(kanaToPol).sort((a, b) => b[0].length - a[0].length); // Сортируем по длине ключа в порядке убывания
 
     let polText = hiraganaText;
@@ -35,10 +35,15 @@ export const jpToPol = async (text, vowelLengthMacron = true, space = true) => {
         polText = polText.replace(/а̄/g, 'а');
         polText = polText.replace(/ӣ/g, 'и');
         polText = polText.replace(/ӯ/g, 'у');
-        polText = polText.replace(/э̄/g, 'э');
+        polText = polText.replace(/э̄/g, 'эи');
         polText = polText.replace(/о̄/g, 'о');
         polText = polText.replace(/ё̄/g, 'ё');
     }
-    return polText.split(" ").join(space ? " " : ""); // Убираем пробелы, если space = false
+    return polText
+        .replace(/[ ]{2,}/g, " ") // Заменяем 2 и более пробелов на один
+        .replace(/\s+([.,!?;:])/g, "$1") // Убираем пробелы ПЕРЕД знаками препинания
+        .trim() // Убираем пробелы в начале и конце
+        .replace(/\s+/g, space ? " " : ""); // Если space=false, убираем всё
+
 };
 jpToPol("バングラデシュ領コンゴの一部であるウズベキスタン・タジキスタン連合は、モロッコ沿岸に部隊を派遣した。Konnichiwa watashi desu!").then(console.log); 
