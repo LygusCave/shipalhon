@@ -30,7 +30,6 @@ app.post("/transcriptCN", jsonParser, function (request, response) {
     response.send(ruText);
 });
 app.post("/transcriptJP", jsonParser, async function (request, response) {
-    console.log("Получен запрос на транскрипцию JP:", request.body);
     const text = request.body;
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
