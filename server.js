@@ -15,6 +15,7 @@ app.use((req, res, next) => {
     console.log(`Пришел запрос: ${req.method} ${req.url}`);
     next();
 });
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'front')));
 
 app.get('/', (req, res) => {

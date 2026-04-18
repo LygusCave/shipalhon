@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig) {
     dir: {
       input: "front",          // Входная папка — front
       includes: "layout",      // Папка с шаблонами внутри front (без ../)
-      output: "_site"          // Результат в корень проекта
+      output: "dist"          // Результат в корень проекта
     }
   };
 };
