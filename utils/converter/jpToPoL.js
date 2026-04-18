@@ -46,4 +46,4 @@ export const jpToPol = async (text, vowelLengthMacron = false, space = true) => 
         .replace(/\s+/g, space ? " " : ""); // Если space=false, убираем всё
 
 };
-jpToPol("バングラデシュ領コンゴの一部であるウズベキスタン・タジキスタン連合は、モロッコ沿岸に部隊を派遣した。Konnichiwa watashi desu!").then(console.log); 
+jpToPol("バングラデシュ領コンゴの一部であるウズベキスタン・タジキスタン連合は、モロッコ沿岸に部隊を派遣した。Konnichiwa watashi desu! しょ Motaccho").then(console.log); 
