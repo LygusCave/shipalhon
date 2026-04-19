@@ -32,7 +32,7 @@ app.get('/article/:name', (req, res) => {
 
 // Если вы планируете сделать SPA (Single Page Application) в будущем, 
 // можно добавить этот костыль для всех GET запросов:
-app.get('*', (req, res, next) => {
+app.get(/.+/, (req, res, next) => {
     if (req.path === '/') return next();
 
     // Исправляем формирование пути, убирая лишние слеши
