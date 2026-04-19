@@ -17,7 +17,26 @@ app.use((req, res, next) => {
 });
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'front')));
+// Обработка конкретных путей в папке dist
+app.get('/article/:name', (req, res) => {
+    const articlePath = path.join(__dirname, 'dist', 'article', req.params.name, 'index.html');
+    if (fs.existsSync(articlePath)) {
+        res.sendFile(articlePath);
+    } else {
+        res.status(404).send('Статья не найдена');
+    }
+});
 
+// Если вы планируете сделать SPA (Single Page Application) в будущем, 
+// можно добавить этот костыль для всех GET запросов:
+app.get('*', (req, res) => {
+    // Проверяем, есть ли такой файл в dist/название/index.html
+    const fallbackPath = path.join(__dirname, 'dist', req.path, 'index.html');
+    if (fs.existsSync(fallbackPath)) {
+        return res.sendFile(fallbackPath);
+    }
+    res.status(404).send('Страница не найдена');
+});
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'front', 'index.html'));
 });
