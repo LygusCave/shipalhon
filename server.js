@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import {toPallad, cyclePinyinPall, capitalizeFirstLetter} from './utils/converter/cnToPall.js';
 import {jpToHiragana,jpToPol} from './utils/converter/jpToPoL.js';
+import {krToKontz} from "./utils/converter/krToKontz.js"
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
@@ -64,6 +65,13 @@ app.post("/transcriptJP", jsonParser, async function (request, response) {
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
     const ruText = await jpToPol(responseText, text.vowelLengthMacron, text.spaceBool);
+    response.send(ruText);
+});
+app.post("/transcriptKO", jsonParser, async function (request, response) {
+    const text = request.body;
+    if(!text) return response.sendStatus(400);
+    const responseText = text.utext;
+    const ruText = await krToKontz(responseText);
     response.send(ruText);
 });
 if (fs.existsSync(SOCKET_PATH)) {
