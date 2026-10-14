@@ -10,10 +10,10 @@ export const jpToHiragana = async (text) => {
     return result;
 };
 export const jpToPol = async (text, vowelLengthMacron = false, space = true) => {
-    let hiraganaText = (await jpToHiragana(text)).trim();
+    let jpText = (await jpToHiragana(text)).trim();
     const sortedEntries = Object.entries(kanaToPol).sort((a, b) => b[0].length - a[0].length); // Сортируем по длине ключа в порядке убывания
 
-    let polText = hiraganaText;
+    let polText = jpText.toLowerCase();
 
     for (const [kana, pol] of sortedEntries) {
         const regex = new RegExp(kana, "g");
@@ -46,4 +46,3 @@ export const jpToPol = async (text, vowelLengthMacron = false, space = true) => 
         .replace(/\s+/g, space ? " " : ""); // Если space=false, убираем всё
 
 };
-jpToPol("バングラデシュ領コンゴの一部であるウズベキスタン・タジキスタン連合は、モロッコ沿岸に部隊を派遣した。Konnichiwa watashi desu! しょ Motaccho").then(console.log); 

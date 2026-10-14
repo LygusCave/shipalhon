@@ -32,6 +32,7 @@ app.get('/article/:name', (req, res) => {
 
 // Если вы планируете сделать SPA (Single Page Application) в будущем, 
 // можно добавить этот костыль для всех GET запросов:
+// Нейрослопик(((
 app.get(/.+/, (req, res, next) => {
     if (req.path === '/') return next();
 
