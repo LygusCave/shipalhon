@@ -31,28 +31,6 @@ app.get('/article/:name', (req, res) => {
     }
 });
 
-// Если вы планируете сделать SPA (Single Page Application) в будущем, 
-// можно добавить этот костыль для всех GET запросов:
-// Нейрослопик(((
-app.get(/.+/, (req, res, next) => {
-    if (req.path === '/') return next();
-
-    // Исправляем формирование пути, убирая лишние слеши
-    const cleanPath = req.path.replace(/^\/+/, '');
-    const fallbackPath = path.resolve(__dirname, 'dist', cleanPath, 'index.html');
-    
-    console.log(`[Debug] Пробуем найти файл: ${fallbackPath}`);
-
-    if (fs.existsSync(fallbackPath)) {
-        return res.sendFile(fallbackPath);
-    }
-    
-    res.status(404).send(`Страница ${req.path} не найдена`);
-});
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'front', 'index.html'));
-});
-
 app.post("/transcriptCN", jsonParser, function (request, response) {
     const text = request.body;
     if(!text) return response.sendStatus(400);
@@ -74,6 +52,25 @@ app.post("/transcriptKO", jsonParser, async function (request, response) {
     const ruText = await krToKontz(responseText);
     response.send(ruText);
 });
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'front', 'index.html'));
+});
+
+app.get('*', (req, res) => {
+    const cleanPath = req.path.replace(/^\/+/, '');
+    const fallbackPath = path.resolve(__dirname, 'dist', cleanPath, 'index.html');
+
+    console.log(`[Debug] Пробуем найти файл: ${fallbackPath}`);
+
+    if (cleanPath && fs.existsSync(fallbackPath)) {
+        return res.sendFile(fallbackPath);
+    }
+
+    // Если файла нет в dist, отдаем главную или 404
+    res.status(404).send(`Страница ${req.path} не найдена`);
+});
+
 if (fs.existsSync(SOCKET_PATH)) {
     try {
         fs.unlinkSync(SOCKET_PATH);
