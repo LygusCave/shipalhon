@@ -43,6 +43,7 @@ export const jpToPol = async (text, vowelLengthMacron = false, space = true) => 
         .replace(/[ ]{2,}/g, " ") // Заменяем 2 и более пробелов на один
         .replace(/\s+([.,!?;:])/g, "$1") // Убираем пробелы ПЕРЕД знаками препинания
         .trim() // Убираем пробелы в начале и конце
-        .replace(/\s+/g, space ? " " : ""); // Если space=false, убираем всё
+        .replace(/\s+/g, space ? " " : "")
+        .replace(/н(?=[бпм])/g, 'м'); // Если space=false, убираем всё
 
 };
