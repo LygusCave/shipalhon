@@ -59,7 +59,7 @@ export function cyclePinyinPall(chineseText, space, erhua = false) {
       const prev = converted[i - 1].toLowerCase();
       const startsWithVowel = /^[аеёиоуыэюя]/i.test(current);
       
-      if (prev.endsWith('н') && startsWithVowel) {
+      if (prev.endsWith('н') && startsWithVowel && !space) {
         result += 'ъ';
       }
     }

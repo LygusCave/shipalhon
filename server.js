@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const SOCKET_PATH = '/var/www/shipalhon.ru/data/nodejs/0.sock';
 const jsonParser = express.json();
+const urlencodedParser = express.urlencoded({ extended: true });
 
 app.use((req, res, next) => {
     console.log(`Пришел запрос: ${req.method} ${req.url}`);
@@ -31,7 +32,7 @@ app.get('/article/:name', (req, res) => {
     }
 });
 
-app.post("/transcriptCN", jsonParser, function (request, response) {
+app.post("/transcriptCN", [jsonParser, urlencodedParser], function (request, response) {
     const text = request.body;
     if(!text) return response.sendStatus(400);
     const responseText = text.utext;
